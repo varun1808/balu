@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: dep2
+  labels:
+    app: nbapp
+spec: 
+  replicas: 10
+  selector: 
+    matchLabels: 
+      app: nbapp
+  template: 
+    metadata:
+      labels: 
+         app: nbapp    
+    spec: 
+      volumes:      
+      - name: mypvc
+        persistentVolumeClaim: 
+          claimName: pv-data-claim
+      containers: 
+      - name: c1
+        image: nginx
+        volumeMounts:
+        - name: mypvc        
+          mountPath: /etc/nbapp
